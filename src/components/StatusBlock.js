@@ -64,7 +64,9 @@ class StatusBlock extends Component {
       i += 3;
     }
     if (flag === false) {
-      store.dispatch({ type: actionTypes.CHANGE_STATUS });
+      store.dispatch({ type: actionTypes.COMPLETE_STATUS });
+    } else {
+      store.dispatch({ type: actionTypes.IN_PROGRESS_STATUS });
     }
   }
 

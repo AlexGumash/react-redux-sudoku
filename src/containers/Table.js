@@ -31,6 +31,7 @@ class Table extends Component {
     }
   }
   render() {
+    var styles = {};
     return (
       <div>
         <table
@@ -42,8 +43,21 @@ class Table extends Component {
               return (
                 <tr key={index}>
                   {tr.map((item, index2) => {
+                    if (
+                      item === tableApi.table()[index][index2] &&
+                      item !== ""
+                    ) {
+                      styles = {
+                        fontWeight: "bold"
+                      };
+                    } else {
+                      styles = {
+                        fontWeight: "normal"
+                      };
+                    }
+
                     return (
-                      <td key={index2} id={`${index}${index2}`}>
+                      <td key={index2} id={`${index}${index2}`} style={styles}>
                         {item}
                       </td>
                     );
