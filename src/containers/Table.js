@@ -8,36 +8,6 @@ import * as actionTypes from "../constants/actionTypes";
 import { tableApi } from "../api/table.js";
 
 class Table extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     finished: false
-  //   };
-  // }
-  // check() {
-  //   var checkArr = [];
-  //   var flag = true;
-  //   this.props.currentTable.map(tableRow => {
-  //     checkArr = [];
-  //     flag = true;
-  //     tableRow.map(tableCell => {
-  //       if (checkArr.indexOf(tableCell) !== -1 || tableCell === "") {
-  //         flag = false;
-  //       } else {
-  //         checkArr.push(tableCell);
-  //       }
-  //     });
-  //
-  //     if (flag === false) {
-  //       return false;
-  //     }
-  //   });
-  //   if (flag === true) {
-  //     this.setState({
-  //       finished: true
-  //     });
-  //   }
-  // }
   clickCell(e) {
     const currentCell = this.props.currentTable[e.target.id[0]][e.target.id[1]];
     const apiCell = tableApi.table()[e.target.id[0]][e.target.id[1]];
@@ -84,7 +54,6 @@ class Table extends Component {
           </tbody>
         </table>
         <NumPad />
-        <button type="button">Check</button>
       </div>
     );
   }
