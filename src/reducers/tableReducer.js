@@ -3,7 +3,7 @@ import { tableApi } from "../api/table.js";
 
 const initialState = tableApi.table();
 
-export const tableReducer = (state = initialState, action) => {
+export const table = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_NUMBER:
       state[action.position[0]][action.position[1]] = parseInt(

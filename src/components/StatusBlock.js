@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import store from "../reducers/";
 
 import * as actionTypes from "../constants/actionTypes";
 
@@ -64,9 +63,9 @@ class StatusBlock extends Component {
       i += 3;
     }
     if (flag === false) {
-      store.dispatch({ type: actionTypes.COMPLETE_STATUS });
+      this.props.dispatch({ type: actionTypes.COMPLETE_STATUS });
     } else {
-      store.dispatch({ type: actionTypes.IN_PROGRESS_STATUS });
+      this.props.dispatch({ type: actionTypes.IN_PROGRESS_STATUS });
     }
   }
 
@@ -88,8 +87,8 @@ class StatusBlock extends Component {
 
 function mapStateToProps(state) {
   return {
-    status: state.statusReducer,
-    table: state.tableReducer
+    status: state.status,
+    table: state.table
   };
 }
 

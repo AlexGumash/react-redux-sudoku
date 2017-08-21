@@ -1,38 +1,49 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import store from "../reducers/";
 
 import * as actionTypes from "../constants/actionTypes";
+import * as styles from "../constants/styles.js";
+import { numPadTable } from "../api/numPadTable.js";
 
 class NumPad extends Component {
   clickCell(e) {
-    store.dispatch({
+    this.props.dispatch({
       type: actionTypes.CHANGE_CURRENT_NUMBER,
       newNumber: e.target.id
     });
   }
   render() {
+    var cellStyle = {};
     return (
       <div>
         <table
+          className="numPad"
           onClick={e => {
             this.clickCell(e);
           }}>
           <tbody>
-            <tr>
-              <td id="1">1</td>
-              <td id="2">2</td>
-              <td id="3">3</td>
-              <td id="4">4</td>
-              <td id="5">5</td>
-            </tr>
-            <tr>
-              <td id="6">6</td>
-              <td id="7">7</td>
-              <td id="8">8</td>
-              <td id="9">9</td>
-              <td id="DEL">DEL</td>
-            </tr>
+            {numPadTable.table().map((tableRow, indexRow) => {
+              return (
+                <tr key={indexRow}>
+                  {tableRow.map((tableCell, indexCell) => {
+                    if (
+                      tableCell === parseInt(this.props.currentNumber, 10) ||
+                      (tableCell === this.props.currentNumber &&
+                        this.props.currentNumber === "DEL")
+                    ) {
+                      cellStyle = styles.numPadHeighlight;
+                    } else {
+                      cellStyle = styles.normalNumPad;
+                    }
+                    return (
+                      <td id={`${tableCell}`} key={indexCell} style={cellStyle}>
+                        {tableCell}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -42,7 +53,8 @@ class NumPad extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentTable: state.numPadReducer
+    currentNumber: state.numPad,
+    selectedNumber: state.selectedNumber
   };
 }
 

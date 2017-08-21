@@ -1,6 +1,6 @@
 import * as actionTypes from "../constants/actionTypes.js";
 
-export const statusReducer = (state = false, action) => {
+export const status = (state = false, action) => {
   switch (action.type) {
     case actionTypes.COMPLETE_STATUS:
       state = true;

@@ -1,13 +1,13 @@
 import { combineReducers, createStore } from "redux";
 
-import { numPadReducer } from "./numPadReducer";
-import { tableReducer } from "./tableReducer";
-import { statusReducer } from "./statusReducer";
+import { numPad } from "./numPadReducer";
+import { table } from "./tableReducer";
+import { status } from "./statusReducer";
 
 const rootReducer = combineReducers({
-  numPadReducer,
-  tableReducer,
-  statusReducer
+  numPad,
+  table,
+  status
 });
 
 const store = createStore(rootReducer);

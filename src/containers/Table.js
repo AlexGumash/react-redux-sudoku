@@ -1,40 +1,45 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import store from "../reducers/";
 
 import "../styles/table.css";
 import NumPad from "../components/NumPad";
 import * as actionTypes from "../constants/actionTypes";
+import * as styles from "../constants/styles.js";
 import { tableApi } from "../api/table.js";
 
 class Table extends Component {
   clickCell(e) {
-    const currentCell = this.props.currentTable[e.target.id[0]][e.target.id[1]];
-    const apiCell = tableApi.table()[e.target.id[0]][e.target.id[1]];
-    const value = this.props.currentNumber;
+    if (e.target.tagName === "TD") {
+      const currentCell = this.props.currentTable[e.target.id[0]][
+        e.target.id[1]
+      ];
+      const apiCell = tableApi.table()[e.target.id[0]][e.target.id[1]];
+      const value = this.props.currentNumber;
 
-    if (this.props.currentNumber === "DEL") {
-      if (currentCell !== apiCell) {
-        store.dispatch({
-          type: actionTypes.DEL_NUMBER,
-          position: e.target.id
-        });
-      }
-    } else {
-      if (currentCell === "" && value !== "") {
-        store.dispatch({
-          type: actionTypes.SET_NUMBER,
-          position: e.target.id,
-          number: value
-        });
+      if (this.props.currentNumber === "DEL") {
+        if (currentCell !== apiCell) {
+          this.props.dispatch({
+            type: actionTypes.DEL_NUMBER,
+            position: e.target.id
+          });
+        }
+      } else {
+        if (currentCell === "" && value !== "") {
+          this.props.dispatch({
+            type: actionTypes.SET_NUMBER,
+            position: e.target.id,
+            number: value
+          });
+        }
       }
     }
   }
   render() {
-    var styles = {};
+    var cellStyle = {};
     return (
       <div>
         <table
+          className="mainTable"
           onClick={e => {
             this.clickCell(e);
           }}>
@@ -47,17 +52,19 @@ class Table extends Component {
                       item === tableApi.table()[index][index2] &&
                       item !== ""
                     ) {
-                      styles = {
-                        fontWeight: "bold"
-                      };
+                      cellStyle = styles.boldNumbers;
                     } else {
-                      styles = {
-                        fontWeight: "normal"
-                      };
+                      cellStyle = styles.normalNumbers;
+                    }
+                    if (item === parseInt(this.props.currentNumber, 10)) {
+                      cellStyle = { ...cellStyle, ...styles.heighlightNumber };
                     }
 
                     return (
-                      <td key={index2} id={`${index}${index2}`} style={styles}>
+                      <td
+                        key={index2}
+                        id={`${index}${index2}`}
+                        style={cellStyle}>
                         {item}
                       </td>
                     );
@@ -75,8 +82,8 @@ class Table extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentTable: state.tableReducer,
-    currentNumber: state.numPadReducer
+    currentTable: state.table,
+    currentNumber: state.numPad
   };
 }
 
