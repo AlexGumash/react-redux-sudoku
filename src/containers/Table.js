@@ -24,13 +24,25 @@ class Table extends Component {
           });
         }
       } else {
-        if (currentCell === "" && value !== "") {
+        if (currentCell === "" && this.props.currentNumber) {
           this.props.dispatch({
             type: actionTypes.SET_NUMBER,
             position: e.target.id,
             number: value
           });
+          this.props.dispatch({
+            type: actionTypes.ADD_TO_HISTORY,
+            newItem: this.props.currentTable
+          });
         }
+      }
+      if (this.props.currentNumber !== "DEL") {
+        this.props.dispatch({
+          type: actionTypes.CHANGE_CURRENT_NUMBER,
+          newSelectedNumber:
+            currentCell || parseInt(this.props.currentNumber, 10),
+          position: e.target.id
+        });
       }
     }
   }
@@ -56,8 +68,22 @@ class Table extends Component {
                     } else {
                       cellStyle = styles.normalNumbers;
                     }
-                    if (item === parseInt(this.props.currentNumber, 10)) {
+
+                    if (
+                      item === parseInt(this.props.currentNumber, 10) ||
+                      item === this.props.selectedNumber
+                    ) {
                       cellStyle = { ...cellStyle, ...styles.heighlightNumber };
+                    }
+                    if (
+                      this.props.position &&
+                      index === parseInt(this.props.position[0], 10) &&
+                      index2 === parseInt(this.props.position[1], 10)
+                    ) {
+                      cellStyle = {
+                        ...cellStyle,
+                        ...styles.heighlightSelectedNumber
+                      };
                     }
 
                     return (
@@ -83,7 +109,10 @@ class Table extends Component {
 function mapStateToProps(state) {
   return {
     currentTable: state.table,
-    currentNumber: state.numPad
+    currentNumber: state.numPad.numPadNumber,
+    selectedNumber: state.numPad.selectedNumber,
+    position: state.numPad.position,
+    history: state.history
   };
 }
 
