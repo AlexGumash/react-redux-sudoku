@@ -1,6 +1,6 @@
 export const boldNumbers = {
   fontWeight: 900,
-  fontSize: "18px"
+  fontSize: "20px"
 };
 
 export const normalNumbers = {
@@ -12,7 +12,7 @@ export const heighlightNumber = {
 };
 
 export const heighlightSelectedNumber = {
-  backgroundColor: "green"
+  backgroundColor: "rgb(0, 221, 29)"
 };
 
 export const numPadHeighlight = {

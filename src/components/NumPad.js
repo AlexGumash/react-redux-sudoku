@@ -29,7 +29,8 @@ class NumPad extends Component {
                     if (
                       tableCell === parseInt(this.props.currentNumber, 10) ||
                       (tableCell === this.props.currentNumber &&
-                        this.props.currentNumber === "DEL")
+                        this.props.currentNumber === "DEL") ||
+                      tableCell === this.props.selectedNumber
                     ) {
                       cellStyle = styles.numPadHeighlight;
                     } else {
@@ -53,8 +54,8 @@ class NumPad extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentNumber: state.numPad,
-    selectedNumber: state.selectedNumber
+    currentNumber: state.numPad.numPadNumber,
+    selectedNumber: state.numPad.selectedNumber
   };
 }
 
