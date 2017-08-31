@@ -6,12 +6,53 @@ import * as styles from "../constants/styles.js";
 import { numPadTable } from "../api/numPadTable.js";
 
 class NumPad extends Component {
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     historyCounter: 0
+  //   };
+  // }
   clickCell(e) {
     this.props.dispatch({
       type: actionTypes.CHANGE_CURRENT_NUMBER,
       newNumber: e.target.id
     });
   }
+  // clickHistoryButton(e) {
+  //   const historyItem = this.props.history[this.state.historyCounter];
+  //
+  //   if (this.props.history.length > 0 && historyItem.value) {
+  //     this.props.dispatch({
+  //       type: actionTypes.ADD_TO_HISTORY,
+  //       prevNumber: this.props.currentTable[historyItem.position[0]][
+  //         historyItem.position[1]
+  //       ],
+  //       position: historyItem.position
+  //     });
+  //     this.props.dispatch({
+  //       type: actionTypes.SET_NUMBER,
+  //       number: historyItem.value,
+  //       position: historyItem.position
+  //     });
+  //   } else if (this.props.history.length > 0) {
+  //     this.props.dispatch({
+  //       type: actionTypes.DEL_NUMBER,
+  //       position: historyItem.position
+  //     });
+  //   }
+  //   if (
+  //     e.target.id === "prev" &&
+  //     this.state.historyCounter < this.props.history.length - 1
+  //   ) {
+  //     this.setState({
+  //       historyCounter: this.state.historyCounter + 1
+  //     });
+  //   } else if (e.target.id === "next" && this.state.historyCounter > 0) {
+  //     this.setState({
+  //       historyCounter: this.state.historyCounter - 1
+  //     });
+  //   }
+  // }
   render() {
     var cellStyle = {};
     return (
@@ -47,6 +88,22 @@ class NumPad extends Component {
             })}
           </tbody>
         </table>
+        <button
+          type="button"
+          id="prev"
+          onClick={e => {
+            this.clickHistoryButton(e);
+          }}>
+          prev
+        </button>
+        <button
+          type="button"
+          id="next"
+          onClick={e => {
+            this.clickHistoryButton(e);
+          }}>
+          next
+        </button>
       </div>
     );
   }
@@ -54,8 +111,10 @@ class NumPad extends Component {
 
 function mapStateToProps(state) {
   return {
+    currentTable: state.table,
     currentNumber: state.numPad.numPadNumber,
-    selectedNumber: state.numPad.selectedNumber
+    selectedNumber: state.numPad.selectedNumber,
+    history: state.history
   };
 }
 

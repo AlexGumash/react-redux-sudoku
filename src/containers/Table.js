@@ -16,6 +16,16 @@ class Table extends Component {
       const apiCell = tableApi.table()[e.target.id[0]][e.target.id[1]];
       const value = this.props.currentNumber;
 
+      if (
+        (currentCell === "" && this.props.currentNumber) ||
+        (this.props.currentNumber === "DEL" && currentCell !== apiCell)
+      ) {
+        this.props.dispatch({
+          type: actionTypes.ADD_TO_HISTORY,
+          item: this.props.currentTable
+        });
+      }
+
       if (this.props.currentNumber === "DEL") {
         if (currentCell !== apiCell) {
           this.props.dispatch({
@@ -30,17 +40,20 @@ class Table extends Component {
             position: e.target.id,
             number: value
           });
-          this.props.dispatch({
-            type: actionTypes.ADD_TO_HISTORY,
-            newItem: this.props.currentTable
-          });
         }
       }
-      if (this.props.currentNumber !== "DEL") {
+
+      if (this.props.currentNumber !== "DEL" && currentCell !== "") {
         this.props.dispatch({
           type: actionTypes.CHANGE_CURRENT_NUMBER,
           newSelectedNumber:
             currentCell || parseInt(this.props.currentNumber, 10),
+          position: e.target.id
+        });
+      } else if (this.props.currentNumber !== "DEL" && currentCell === "") {
+        this.props.dispatch({
+          type: actionTypes.CHANGE_CURRENT_NUMBER,
+          newNumber: parseInt(this.props.currentNumber, 10),
           position: e.target.id
         });
       }
@@ -56,7 +69,7 @@ class Table extends Component {
             this.clickCell(e);
           }}>
           <tbody>
-            {this.props.currentTable.map((tr, index) => {
+            {this.props.history.present.map((tr, index) => {
               return (
                 <tr key={index}>
                   {tr.map((item, index2) => {
